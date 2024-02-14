@@ -1,0 +1,18 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+}
+
+#output-container {
+    margin-bottom: 15px;
+}
+
+input {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 6px 10px;
+    cursor: pointer;
+}
