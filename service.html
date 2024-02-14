@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인 비서, 지니스트</title>
+    <link rel="stylesheet" href="service.css">
+</head>
+<body>
+    <div class="container">
+        <form>
+            <input type="text" placeholder="요청사항을 입력하세요">
+            <button type="submit">전송</button>
+        </form>
+        <div class="answer"></div>
+    </div>
+    <script>
+        const $input = document.querySelector('input')
+        const $button = document.querySelector('button')
+        const $answer = document.querySelector('.answer')
+
+        // "질문하기!" 버튼 클릭 이벤트 리스너
+        $button.addEventListener('click', e => {
+            e.preventDefault();
+            const contents = $input.value;
+            $input.value = '';
+
+            // 사용자가 입력한 내용을 기반으로 API 호출
+            chatGPTAPI(contents);
+        });
+
+        // OpenAI GPT-3 API 호출 함수
+        function chatGPTAPI(contents) {
+            const data = [
+                {
+                    "role": "system",
+                    "content": "Genist는 Genius와 Assist의 합성어로 일정 관리를 도와줄 뛰어난 개인 비서 입니다."
+                },
+                {
+                    "role": "user",
+                    "content": contents
+                }
+            ];
+
+            const url = `https://open-api.jejucodingcamp.workers.dev/`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                // API 응답 및 현재 날짜와 시간을 표시
+                const currentDateTime = new Date().toLocaleString('ko-KR');
+                $answer.innerHTML = `<p>${currentDateTime} - ${res.choices[0].message.content}</p>`;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                $answer.innerHTML = '<p>에러가 발생했습니다.</p>';
+            });
+        }
+    </script>
+</body>
+</html>
