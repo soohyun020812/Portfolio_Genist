@@ -19,8 +19,6 @@ IDE : Visual Studio Code
 gantt
     title 지니스트 개발 세부화
     dateFormat    YYYY-MM-DD
-    excludes    weekends
-    axisFormat    %m-%d
 
     section 계획 단계
     프로젝트 목표 : 2024-02-13, 1d
