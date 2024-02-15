@@ -1,157 +1,125 @@
+// DOMContentLoaded 이벤트가 발생하면 실행될 함수
 document.addEventListener('DOMContentLoaded', function () {
+    // HTML 요소들을 변수에 할당
     const $startBtn = document.getElementById('startConversationBtn');
-    const $addBtn = document.getElementById('addScheduleBtn');
-    const $viewBtn = document.getElementById('viewScheduleBtn');
-    const $deleteBtn = document.getElementById('deleteScheduleBtn');
-    const $answer = document.querySelector('.answer');
     const $scheduleButtons = document.querySelector('.schedule-buttons');
+    const $answer = document.querySelector('.answer');
+    const $chattingButtons = document.querySelector('.chatting-buttons');
+    const scheduleList = []; // 일정 목록을 담는 배열
 
-    // 일정 목록을 저장할 배열
-    const scheduleList = [];
-
-    $startBtn.addEventListener('click', () => {
-        // '지니스트 시작하기' 버튼을 클릭하면 나머지 버튼들이 나타나도록 스타일 변경
-        $scheduleButtons.style.display = 'flex'; // display 속성을 'flex'로 변경하여 보이도록 설정
-        $startBtn.style.display = 'none'; // '지니스트 시작하기' 버튼은 숨김
-
-        // 지니스트의 인삿말을 화면에 추가
-        const genistGreeting = "저는 Genius와 Assist의 합성어로 당신의 일정 관리를 도와줄 뛰어난 개인 비서입니다. 어떤 도움이 필요한지 아래의 버튼을 눌러주세요.";
-        appendMessage('genist', genistGreeting);
-    });
-
-    $addBtn.addEventListener('click', () => {
-        handleButtonClick('일정추가');
-    });
-
-    $viewBtn.addEventListener('click', () => {
-        handleButtonClick('일정조회');
-        // 일정 조회 버튼을 눌렀을 때의 동작을 정의
-        handleViewSchedule();
-    });
-
-    $deleteBtn.addEventListener('click', () => {
-        handleButtonClick('일정삭제');
-        // 일정 삭제 버튼을 눌렀을 때의 동작을 정의
-        handleDeleteSchedule();
-    });
-
-    function showScheduleButtons() {
-        $scheduleButtons.style.display = 'flex';
-        $startBtn.style.display = 'none';
+    // HTML 요소를 화면에 표시하는 함수
+    function showElement(element) {
+        element.style.display = 'flex';
     }
 
+    // HTML 요소를 화면에서 숨기는 함수
+    function hideElement(element) {
+        element.style.display = 'none';
+    }
+
+    // 대화창에 메시지를 추가하는 함수
+    function appendMessage(role, content) {
+        const currentDateTime = new Date().toLocaleString('ko-KR');
+        const chatMessage = document.createElement('p');
+        chatMessage.innerHTML = `${currentDateTime} - ${role === 'user' ? '나' : '지니스트'} : ${content}`;
+        chatMessage.classList.add(role === 'user' ? 'user-message' : 'genist-message');
+        $answer.appendChild(chatMessage);
+    }
+
+    // 버튼 클릭에 대한 처리를 담당하는 함수
+    function handleButtonClick(action) {
+        appendMessage('user', action);
+        action === '일정추가' ? promptUserForSchedule() : chatGPTAPI(action);
+    }
+
+    // 사용자에게 일정 정보를 입력받는 함수
     function promptUserForSchedule() {
         const date = prompt('일정 날짜를 입력해주세요. (ex : 2024-02-16)');
-        const time = prompt('일정 시간을 입력해주세요. (ex : 14:00)');
+        const time = prompt('일정 시간을 입력해주세요. (ex : 09:00)');
         const title = prompt('일정 제목을 입력해주세요. (ex : 미니 프로젝트)');
 
         if (date && time && title) {
             const scheduleInput = { date, time, title };
-            
-            // 중복 체크
-            if (!isScheduleDuplicate(scheduleInput)) {
-                handleScheduleAddition(scheduleInput);
-            } else {
-                appendMessage('genist', '이미 추가된 일정입니다.');
-            }
+            isScheduleDuplicate(scheduleInput) ? appendMessage('genist', '이미 추가된 일정입니다.') : handleScheduleAddition(scheduleInput);
         } else {
             appendMessage('user', '일정 추가 취소');
         }
     }
 
+    // 이미 추가된 일정인지 확인하는 함수
     function isScheduleDuplicate(newSchedule) {
-        // 중복 체크를 위해 기존 일정 목록에서 동일한 날짜, 시간, 제목을 가진 일정이 있는지 확인
-        return scheduleList.some(existingSchedule => 
+        return scheduleList.some(existingSchedule =>
             existingSchedule.date === newSchedule.date &&
             existingSchedule.time === newSchedule.time &&
             existingSchedule.title === newSchedule.title
         );
     }
 
+    // 일정을 추가하는 함수
     function handleScheduleAddition(scheduleInput) {
-        scheduleList.push(scheduleInput); // 일정 목록에 추가
+        scheduleList.push(scheduleInput);
         appendMessage('genist', `일정이 추가되었습니다: ${scheduleInput.date} ${scheduleInput.time} - ${scheduleInput.title}`);
     }
 
+    // 일정 조회 또는 삭제에 대한 처리를 담당하는 함수
+    function handleViewOrDeleteSchedule(action) {
+        const scheduleOperation = action === '일정조회' ? handleViewSchedule : handleDeleteSchedule;
+        handleButtonClick(action);
+        scheduleOperation();
+    }
+
+    // 일정 조회 처리를 담당하는 함수
     function handleViewSchedule() {
-        // 예시: 일정 조회 API 호출 또는 다른 로직 수행
-        const scheduleDisplay = scheduleList.map(schedule =>
-            `${schedule.date} ${schedule.time} - ${schedule.title}`
-        );
         const resultMessage = scheduleList.length > 0 ?
-            `일정 조회 결과: ${scheduleDisplay.join(', ')}` :
+            `일정 조회 결과: ${scheduleList.map(schedule => `${schedule.date} ${schedule.time} - ${schedule.title}`).join(', ')}` :
             '일정이 없습니다.';
         appendMessage('genist', resultMessage);
     }
 
+    // 일정 삭제 처리를 담당하는 함수
     function handleDeleteSchedule() {
-        const scheduleToDelete = prompt('삭제할 일정을 입력해주세요.');
+        const titleToDelete = prompt('삭제할 일정의 제목을 입력해주세요.');
 
-        if (scheduleToDelete) {
-            // 예시: 일정 삭제 API 호출 또는 다른 로직 수행
+        if (titleToDelete) {
             const indexToDelete = scheduleList.findIndex(schedule =>
-                `${schedule.date} ${schedule.time} - ${schedule.title}` === scheduleToDelete
+                schedule.title === titleToDelete
             );
+
             if (indexToDelete !== -1) {
-                scheduleList.splice(indexToDelete, 1); // 일정 목록에서 삭제
-                appendMessage('genist', `일정이 삭제되었습니다: ${scheduleToDelete}`);
+                scheduleList.splice(indexToDelete, 1);
+                appendMessage('genist', `일정이 삭제되었습니다: ${titleToDelete}`);
             } else {
-                appendMessage('genist', '해당 일정을 찾을 수 없습니다.');
+                // 해당 제목의 일정을 찾을 수 없을 경우
+                appendMessage('genist', '해당 제목의 일정을 찾을 수 없습니다. 일정 제목을 다시 한 번 입력해주세요.');
             }
         } else {
+            // 사용자가 취소한 경우
             appendMessage('user', '일정 삭제 취소');
         }
     }
 
-    window.handleButtonClick = function(action) {
-        appendMessage('user', action);
-
-        // '일정 추가' 버튼을 클릭한 경우에만 promptUserForSchedule 호출
-        if (action === '일정추가') {
-            promptUserForSchedule();
-        } else {
-            chatGPTAPI(action);
-        }
-    }
-
+    // GPT API를 호출하는 함수
     function chatGPTAPI(action) {
         const data = [
-            {
-                "role": "system",
-                "content": "Genist는 Genius와 Assist의 합성어로 일정 관리를 도와줄 뛰어난 개인 비서 입니다."
-            },
-            {
-                "role": "user",
-                "content": action
-            }
+            { "role": "system", "content": "Genist는 Genius와 Assist의 합성어로 일정 관리를 도와줄 뛰어난 개인 비서 입니다." },
+            { "role": "user", "content": action }
         ];
 
-        const url = `https://open-api.jejucodingcamp.workers.dev/`;
+        const url = 'https://open-api.jejucodingcamp.workers.dev/';
 
         fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
             redirect: 'follow'
         })
         .then(res => res.json())
         .then(res => {
-            // API 응답 및 현재 날짜와 시간을 표시
             const currentDateTime = new Date().toLocaleString('ko-KR');
             const chatMessage = document.createElement('p');
             chatMessage.innerHTML = `${currentDateTime} - ${res.choices[0].role === 'genist' ? '나' : '지니스트'} : ${res.choices[0].message.content}`;
-
-            // 사용자와 지니스트 메시지에 클래스 추가
-            if (res.choices[0].role === 'user') {
-                chatMessage.classList.add('user-message');
-            } else {
-                chatMessage.classList.add('genist-message');
-            }
-
-            // 이전 채팅 기록 컨테이너에 새로운 메시지 추가 (맨 아래에)
-            $answer.appendChild(chatMessage);
+            chatMessage.classList.add(res.choices[0].role === 'user' ? 'user-message' : 'genist-message');
+            // $answer.appendChild(chatMessage);
         })
         .catch(error => {
             console.error('데이터를 불러오는 중 에러 발생:', error);
@@ -159,17 +127,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function appendMessage(role, content) {
-        const currentDateTime = new Date().toLocaleString('ko-KR');
-        const chatMessage = document.createElement('p');
-        chatMessage.innerHTML = `${currentDateTime} - ${role === 'user' ? '나' : '지니스트'} : ${content}`;
+    // 시작 버튼 클릭 시 초기 설정을 변경하고 인사 메시지를 표시하는 함수
+    $startBtn.addEventListener('click', () => {
+        showElement($scheduleButtons);
+        showElement($chattingButtons);
+        hideElement($startBtn);
+        appendMessage('genist', "저는 Genius와 Assist의 합성어로 당신의 일정 관리를 도와줄 뛰어난 개인 비서입니다. 어떤 도움이 필요한지 아래의 버튼을 눌러주세요.");
+    });
 
-        if (role === 'user') {
-            chatMessage.classList.add('user-message');
-        } else {
-            chatMessage.classList.add('genist-message');
-        }
-
-        $answer.appendChild(chatMessage);
-    }
+    // 각 버튼에 이벤트 리스너 추가
+    document.getElementById('addScheduleBtn').addEventListener('click', () => handleButtonClick('일정추가'));
+    document.getElementById('viewScheduleBtn').addEventListener('click', () => handleViewOrDeleteSchedule('일정조회'));
+    document.getElementById('deleteScheduleBtn').addEventListener('click', () => handleViewOrDeleteSchedule('일정삭제'));
 });
