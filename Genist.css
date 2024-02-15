@@ -1,0 +1,114 @@
+/* 전체 페이지의 글꼴, 여백 및 배경색 설정 */
+body {
+    font-family: 'Arial', sans-serif; /* Arial 글꼴 및 sans-serif 대체 글꼴 사용 */
+    margin: 20px; /* 페이지 외부 여백 설정 */
+    background-color: #f0f0f0; /* 전체 배경색 설정 */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    min-height: 90vh; /* 최소 화면 높이의 90%까지 컨테이너가 채워짐 */
+}
+
+/* 컨테이너 스타일 설정 */
+.container {
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    flex-grow: 1; /* 컨테이너가 컨텐츠만큼 세로로 늘어남 */
+}
+
+/* startConversationBtn 스타일 설정 */
+button#startConversationBtn,
+.schedule-buttons button {
+    padding: 10px 15px;
+    background-color: #ffffff; /* 하얀색 배경색 */
+    color: #003459; /* 글자색 설정 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 호버 효과 설정 */
+button#startConversationBtn:hover,
+.schedule-buttons button:hover {
+    background-color: #d9d9d9; /* 호버 시 배경색 변경 */
+}
+
+/* schedule-buttons 스타일 설정 */
+.schedule-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px; /* 상단 여백을 추가하여 센터 정렬에서 떨어지도록 함 */
+    justify-content: center; /* 가로 방향으로 가운데 정렬 */
+}
+
+/* schedule-buttons 안에 있는 버튼 스타일 설정 */
+.schedule-buttons button {
+    padding: 10px 15px;
+    background-color: #ffffff; /* 하얀색 배경색 */
+    color: #003459; /* 글자색 설정 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 호버 효과 설정 */
+.schedule-buttons button:hover {
+    background-color: #d9d9d9; /* 호버 시 배경색 변경 */
+}
+
+/* 폼 스타일 설정 */
+form {
+    margin-top: auto; /* 나머지 공간을 위로 밀어냄 */
+}
+
+/* 출력 컨테이너 마진 설정 */
+#output-container {
+    margin-bottom: 15px; /* 아래쪽 여백 설정 */
+}
+
+/* 입력 필드 스타일 설정 */
+input {
+    padding: 5px; /* 내부 여백 설정 */
+    margin-right: 10px; /* 오른쪽 여백 설정 */
+}
+
+/* 버튼 스타일 설정 */
+button {
+    padding: 6px 10px; /* 내부 여백 설정 */
+    cursor: pointer; /* 커서 모양을 포인터로 설정 */
+    background-color: #3498db; /* 버튼 배경색 설정 */
+    color: #ffffff; /* 버튼 텍스트 색상 설정 */
+}
+
+/* 사용자가 입력한 내용의 배경색 및 테두리 설정 */
+.user-message {
+    background-color: #ffffff; /* 하얀색 배경색 */
+    text-align: right; /* 텍스트를 오른쪽으로 정렬 */
+    border-radius: 10px; /* 테두리를 둥글게 만듦 */
+    border: 3px solid transparent; /* 투명한 테두리 초기값 설정 */
+    transition: background-color 0.3s ease, border 0.3s ease; /* 호버 효과를 위한 전환 설정 */
+}
+
+/* 지니스트가 출력한 내용의 배경색 및 테두리 설정 */
+.genist-message {
+    background-color: #ffffff; /* 하얀색 배경색 */
+    text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+    border-radius: 10px; /* 테두리를 둥글게 만듦 */
+    border: 3px solid transparent; /* 투명한 테두리 초기값 설정 */
+    transition: background-color 0.3s ease, border 0.3s ease; /* 호버 효과를 위한 전환 설정 */
+}
+
+/* user-message 호버 효과 설정 */
+.user-message:hover {
+    background-color: #d9d9d9; /* 호버 시 G배경색 변경 */
+    border-color: #003459; /* 호버 시 테두리 색상 변경 */
+}
+
+/* genist-message 호버 효과 설정 */
+.genist-message:hover {
+    background-color: #d9d9d9; /* 호버 시 배경색 변경 */
+    border-color: #00a8e8; /* 호버 시 테두리 색상 변경 */
+}
