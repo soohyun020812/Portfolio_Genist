@@ -71,7 +71,7 @@ gantt
 버튼의 정렬이 세로로 왼쪽에 치우쳐 있었는데 이를 일렬의 가로로 배치하는 과정에서 문제가 생겼다. <br>
 해결 방법은 관련 3개의 버튼을 새로운 div로 묶고, container을 flex로 세로정렬하여 3개의 버튼을 묶고 해결되었다. <br>
 <hr>
-<![image](https://github.com/soohyun020812/Portfolio/assets/131852352/ca25fe7a-d12e-4eb5-92f4-ea3fb9426b6e)>
+![image](https://github.com/soohyun020812/Portfolio/assets/131852352/bb6a1a96-a7ee-4a6a-bf7e-4551dc2a188d) <br>
 사용자가 일정추가를 완료하고 일정조회, 일정삭제를 진행할 때 출력값과 API의 출력 2개가 겹치는 문제가 생겼다. <br>
 문제 원인은 조회 버튼에 appendMessage로 일정 조회 결과를 출력한 후, fetch의 결과로 appendChild가 발생하는 것이었다. <br>
 해당 부분을 제외하기 위해 $answer.appendChild(chatMessage); 코드를 주석 처리 해주었다.
