@@ -69,7 +69,7 @@ gantt
 <img width="870" alt="Screenshot_2024-02-14_at_5 58 24_PM" src="https://github.com/soohyun020812/Portfolio/assets/131852352/5740a69d-dd05-47a5-8c14-31d0a6a3a681">
 버튼을 구성했을 때 일정추가, 일정조회, 일정삭제 총 3개의 버튼을 생성했다. <br>
 버튼의 정렬이 세로로 왼쪽에 치우쳐 있었는데 이를 일렬의 가로로 배치하는 과정에서 문제가 생겼다. <br>
-해결 방법은 관련 3개의 버튼을 새로운 <div>로 묶고, container을 flex로 세로정렬하여 3개의 버튼을 묶고 해결되었다. <br>
+해결 방법은 관련 3개의 버튼을 새로운 div로 묶고, container을 flex로 세로정렬하여 3개의 버튼을 묶고 해결되었다. <br>
 ![image](https://github.com/soohyun020812/Portfolio/assets/131852352/a0b95cda-3664-464d-b35e-f0039360664b)
 사용자가 일정추가를 완료하고 일정조회, 일정삭제를 진행할 때 출력값과 API의 출력 2개가 겹치는 문제가 생겼다. <br>
 문제 원인은 조회 버튼에 appendMessage로 일정 조회 결과를 출력한 후, fetch의 결과로 appendChild가 발생하는 것이었다. <br>
