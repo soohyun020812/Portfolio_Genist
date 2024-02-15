@@ -9,7 +9,8 @@
 >**2024-02-13 ~ 2024-02-16**
 
 ### ⚙ 환경
->**IDE : Visual Studio Code**
+>**IDE : Visual Studio Code** <br>
+>**배포 URL : https://soohyun020812.github.io/Portfolio/**
 
 ### 📌 기능
 >**일정 추가** <br>
@@ -18,7 +19,6 @@
 >**일정 삭제** <br>
 >**채팅** <br>
 >**종료**
-
 
 ### 🔎 WBS
 ```mermaid
@@ -48,3 +48,7 @@ gantt
     section 발표
     기능 발표 : 2024-02-16, 1d
 ```
+
+### 📏 와이어프레임
+
+### 프로젝트 회고
