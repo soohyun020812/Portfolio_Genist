@@ -1,3 +1,7 @@
+![캡처](https://github.com/soohyun020812/Portfolio/assets/131852352/70bceb5b-376f-4aee-883a-e3cd49350e01)
+
+<hr>
+
 # 개인 비서, 지니스트 (Genist)
 >**Genius(지니어스)와 Assist(어시스트)의 합성어로 <br>
 스케줄 관리나 개인에게 도움을 줄 수 있는 뛰어난 개인 비서를 의미합니다.**
