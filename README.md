@@ -1,5 +1,5 @@
-사진 생성은 Adobe ai를 활용하였고 텍스트는 Canva로 작성하였습니다. <br>
 ![캡처](https://github.com/soohyun020812/Portfolio/assets/131852352/70bceb5b-376f-4aee-883a-e3cd49350e01)
+>사진 생성은 Adobe ai를 활용하였고 텍스트는 Canva로 작성하였습니다. <br>
 
 <hr>
 
